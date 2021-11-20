@@ -1,7 +1,8 @@
 <template>
   <div class="mt-44">
     <div class="container mx-auto px-4">
-      <h1 class="text-center text-4xl">Reset your password</h1>
+      <h1 class="text-center text-4xl">Please enter your email 📨</h1>
+      <p class="text-center mt-4">To reset your password</p>
       <form class="flex flex-col w-full md:w-4/12 mx-auto">
         <input
           type="text"
