@@ -24,6 +24,7 @@ $ cd client
 $ npm run generate
 
 # rename .evn.example to .env
+- Do this in client and server
 - Input the correct keys
 
 ```
