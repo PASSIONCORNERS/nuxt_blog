@@ -1,5 +1,10 @@
 # NUXT BLOG
 
+## Project Scope
+
+Server side is built with Nodejs with the API approach, database is MongoDB
+Client side is built with Nuxtjs
+
 ## Build Setup
 
 ```bash
