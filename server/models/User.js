@@ -227,6 +227,7 @@ class User {
           .then((user) => {
             // check user & password
             if (user && bcrypt.compareSync(this.data.password, user.password)) {
+              // create token
               const access_token = jwt.sign(
                 { user: user._id.toJSON() },
                 process.env.ACCESSTOKEN,
@@ -271,6 +272,147 @@ class User {
           });
       } catch (error) {
         reject(error);
+      }
+    });
+  }
+  forgot() {
+    return new Promise((resolve, reject) => {
+      try {
+        const email = this.data.email;
+        //check email
+        usersCollection
+          .findOne({ email: email })
+          .then((user) => {
+            // console.log("Model >>>", user);
+            // create token
+            const reset_token = jwt.sign(
+              { user: user.email, id: user._id },
+              process.env.ACCESSTOKEN,
+              { expiresIn: "10m" }
+            );
+            // send email
+            const url = `http://localhost:3000/forgot/reset/${reset_token}`;
+            sendgrid
+              .send({
+                to: email,
+                from: "phong@passioncorners.com",
+                subject: "Reset Your Password",
+                text: `Please validate your email by clicking this link ${url}`,
+                html: `
+              <html lang="en">
+              <head>
+                <meta charset="UTF-8" />
+                <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+                <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+                <link
+                  href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap"
+                  rel="stylesheet"
+                />
+                <title>Passioncorners | Account Activation</title>
+                <style>
+                  body {
+                    background-color: #333333;
+                    height: 100vh;
+                    font-family: "Roboto", sans-serif;
+                    color: #fff;
+                    position: relative;
+                    text-align: center;
+                  }
+                  .container {
+                    max-width: 700px;
+                    width: 100%;
+                    height: 100%;
+                    margin: 0 auto;
+                  }
+                  .wrapper {
+                    padding: 0 15px;
+                  }
+                  .card {
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    width: 100%;
+                  }
+                  span {
+                    color: rgb(99, 102, 241);
+                  }
+                  button {
+                    padding: 1em 6em;
+                    border-radius: 5px;
+                    border: 0;
+                    background-color: rgba(99, 102, 241, 1);
+                    transition: all 0.3s ease-in;
+                    cursor: pointer;
+                  }
+                  button:hover {
+                    background-color: rgba(99, 102, 241, 0.8);
+                    transition: all 0.3s ease-in;
+                  }
+                  .spacing {
+                    margin-top: 5rem;
+                  }
+                </style>
+              </head>
+              <body>
+                <div class="container">
+                  <div class="wrapper">
+                    <div class="card">
+                      <h1><span>Reset your password</h1>
+                      <p>Please click the button below to reset your password. 🙂</p>
+                      <a href=${url}><button>Reset Password</button></a>
+                      <p class="spacing">
+                        If the button above does not work, please navigate to the link
+                        provided below 👇🏻
+                      </p>
+                      <div>${url}</div>
+                    </div>
+                  </div>
+                </div>
+              </body>
+            </html>
+          `,
+              })
+              .then(() => {
+                // console.log("Email sent");
+              })
+              .catch((error) => console.log(error.response.body));
+            // success
+            resolve("Re-send the password, please check your email 📨");
+          })
+          .catch((error) => {
+            reject(error.message);
+          });
+      } catch (error) {
+        reject(error.message);
+      }
+    });
+  }
+  reset(data) {
+    return new Promise((resolve, reject) => {
+      let { password, token } = data;
+      try {
+        // verify token
+        let check = jwt.verify(token, process.env.ACCESSTOKEN);
+        if (check) {
+          // hash pass
+          let salt = bcrypt.genSaltSync(10);
+          let hashPassword = bcrypt.hashSync(password, salt);
+          // update password
+          usersCollection.findOneAndUpdate(
+            { _id: ObjectId(check.id) },
+            {
+              $set: {
+                password: hashPassword,
+              },
+            }
+          );
+          resolve("You password was updated successfully 😃");
+        } else {
+          reject(error.message);
+        }
+      } catch (error) {
+        reject(error.message);
       }
     });
   }

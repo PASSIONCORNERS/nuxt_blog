@@ -82,6 +82,36 @@ const userController = {
       res.status(500).json({ message: error });
     }
   },
+  forgot: async (req, res) => {
+    try {
+      // console.log("Body >>>", req.body);
+      new User(req.body)
+        .forgot()
+        .then((success) => {
+          res.status(200).json({ message: success });
+        })
+        .catch((error) => {
+          // console.log("Controller >>>", error);
+          res.status(500).json({ message: error });
+        });
+    } catch (error) {
+      res.status(500).json({ message: error });
+    }
+  },
+  reset: async (req, res) => {
+    try {
+      new User()
+        .reset(req.body)
+        .then((success) => {
+          res.status(200).json({ message: success });
+        })
+        .catch((error) => {
+          res.status(500).json({ message: error });
+        });
+    } catch (error) {
+      res.status(500).json({ message: error });
+    }
+  },
 };
 
 module.exports = userController;

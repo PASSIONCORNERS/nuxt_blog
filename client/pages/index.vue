@@ -99,7 +99,7 @@ export default {
   // },
   methods: {
     async formSubmit() {
-      // * if check does not return true
+      // same ass isEmpty == false
       // check fields
       if (!isEmpty(this.form.username) || !isEmpty(this.form.password))
         return this.$toast.error("Please fill in all fields", {

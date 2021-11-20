@@ -13,7 +13,7 @@ export const isEmail = (email) => {
 };
 // check password length
 export const isLength = (password) => {
-  if (password.lenght < 6) return false;
+  if (password.length < 6) return false;
   return true;
 };
 // check password match
