@@ -9,10 +9,14 @@ Client side is built with Nuxtjs
 ## Features
 
 1. Authentication
+
    Register (with email validatation)
+
    Login
+
    Logout
-   Password reset (via email)
+
+   Password reset (via email) (in progress...)
 
 ## Build Setup
 
