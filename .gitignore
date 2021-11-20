@@ -91,3 +91,6 @@ sw.*
 
 # packakge lock
 package-lock.json
+
+# scope md
+SCOPE.md
