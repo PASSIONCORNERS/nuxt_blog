@@ -18,6 +18,10 @@ Client side is built with Nuxtjs
 
    Password reset (via email)
 
+2. Securities
+
+   CSRF protection (in progress...)
+
 ## Build Setup
 
 ```bash
