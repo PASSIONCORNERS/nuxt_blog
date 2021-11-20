@@ -60,6 +60,9 @@
               Sign Up
             </button>
           </form>
+          <nuxt-link to="/forgot">
+            <p class="text-center mt-6">Forgot password ?</p>
+          </nuxt-link>
         </div>
       </div>
     </div>
