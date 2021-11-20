@@ -10,7 +10,7 @@ $ npm install
 $ cd client
 $ npm install
 
-# serve both client and client with hot reload
+# serve both client and server with hot reload
 - client: localhost:3000
 - server: lcoalhost:8000
 $ cd server
