@@ -35,35 +35,16 @@ const userController = {
     }
   },
   login: async (req, res) => {
-    new User(req.body)
-      .login()
+    const data = req.body;
+    new User()
+      .login(data)
       .then((access_token) => {
         res.status(200).json(access_token);
       })
       .catch((error) => {
+        console.log("Controller >>>", error);
         res.status(500).json({ message: error });
       });
-  },
-  // mw
-  auth: async (req, res, next) => {
-    try {
-      //check access token
-      const token = req.header("Authorization");
-      if (!token)
-        return res.status(400).json({ message: "Authentication failed" });
-      // validate token
-      jwt.verify(token, process.env.ACCESSTOKEN, (error, user) => {
-        if (error)
-          return res.status(400).json({ message: "Authentication failed" });
-        // success
-        // console.log("auth mw >>>", user.user);
-        req.user = user;
-        next();
-      });
-    } catch (error) {
-      console.log(error);
-      res.status(500).json({ message: error.message });
-    }
   },
   userInfo: async (req, res) => {
     try {
@@ -111,6 +92,36 @@ const userController = {
     } catch (error) {
       res.status(500).json({ message: error });
     }
+  },
+  // mw
+  auth: async (req, res, next) => {
+    try {
+      //check access token
+      const token = req.header("Authorization");
+      if (!token)
+        return res.status(400).json({ message: "Authentication failed" });
+      // validate token
+      jwt.verify(token, process.env.ACCESSTOKEN, (error, user) => {
+        if (error)
+          return res.status(400).json({ message: "Authentication failed" });
+        // success
+        // console.log("auth mw >>>", user.user);
+        req.user = user;
+        next();
+      });
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ message: error.message });
+    }
+  },
+  csrf: (req, res, next) => {
+    const csrf_token = req.header("x-csrf-token");
+    const data = req.body;
+    // check csrf
+    if (data._csrf !== csrf_token) {
+      res.status(400).json({ message: "Csrf Detected" });
+    }
+    next();
   },
 };
 

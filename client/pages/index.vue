@@ -17,21 +17,21 @@
           <h2 class="text-center text-3xl mb-4">Sign Up Here</h2>
           <form class="flex flex-col" @submit.prevent="formSubmit">
             <input
-              v-model="form.username"
+              v-model="username"
               type="text"
               autocomplete="off"
               class="border border-indigo-500 rounded py-3 pl-3 my-2"
               placeholder="Name"
             />
             <input
-              v-model="form.email"
+              v-model="email"
               type="text"
               autocomplete="off"
               class="border border-indigo-500 rounded py-3 pl-3 my-2"
               placeholder="Email"
             />
             <input
-              v-model="form.password"
+              v-model="password"
               type="password"
               autocomplete="off"
               class="border border-indigo-500 rounded py-3 pl-3 my-2"
@@ -44,6 +44,7 @@
               class="border border-indigo-500 rounded py-3 pl-3 my-2"
               placeholder="Confirm Password"
             />
+            <input type="hidden" v-model="$data._csrf" />
             <button
               type="submit"
               class="
@@ -86,22 +87,18 @@ export default {
   },
   data() {
     return {
-      form: {
-        username: "",
-        email: "",
-        password: "",
-      },
+      username: "",
+      email: "",
+      password: "",
       cf_password: "",
+      _csrf: this.$csrfToken(),
     };
   },
-  // async fetch({ store }) {
-  //   console.log(store.state.auth.isLoggedIn);
-  // },
   methods: {
     async formSubmit() {
       // same ass isEmpty == false
       // check fields
-      if (!isEmpty(this.form.username) || !isEmpty(this.form.password))
+      if (!isEmpty(this.username) || !isEmpty(this.password))
         return this.$toast.error("Please fill in all fields", {
           position: "top-center",
           duration: 8000,
@@ -113,7 +110,7 @@ export default {
           },
         });
       // check email
-      if (!isEmail(this.form.email))
+      if (!isEmail(this.email))
         return this.$toast.error("Please enter a valid email address", {
           position: "top-center",
           duration: 8000,
@@ -125,7 +122,7 @@ export default {
           },
         });
       // check password
-      if (!isLength(this.form.password))
+      if (!isLength(this.password))
         return this.$toast.error("Password must be at least 6 characters", {
           position: "top-center",
           duration: 8000,
@@ -137,7 +134,7 @@ export default {
           },
         });
       // check match
-      if (!isMatch(this.form.password, this.cf_password))
+      if (!isMatch(this.password, this.cf_password))
         return this.$toast.error("Password did not match", {
           position: "top-center",
           duration: 8000,
@@ -148,14 +145,19 @@ export default {
             },
           },
         });
-
+      const data = {
+        username: this.username,
+        email: this.email,
+        password: this.password,
+        _csrf: this.$csrfToken(),
+      };
       await this.$axios
-        .$post("http://localhost:8000/api/register", this.form)
+        .$post("http://localhost:8000/api/register", data)
         .then((res) => {
           console.log(res.message);
-          this.form.username = "";
-          this.form.email = "";
-          this.form.password = "";
+          this.username = "";
+          this.email = "";
+          this.password = "";
           this.cf_password = "";
           this.$toast.success(res.message, {
             position: "top-center",
@@ -190,10 +192,5 @@ export default {
       return redirect("/dashboard");
     }
   },
-  // transition: "home",
-  // transition: {
-  //   name: "home",
-  //   mode: "out-in",
-  // },
 };
 </script>

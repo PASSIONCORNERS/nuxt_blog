@@ -41,9 +41,9 @@ export default {
   },
 
   methods: {
-    testLogOut() {
-      this.$store.dispatch("auth/logout");
-    },
+    // testLogOut() {
+    //   this.$store.dispatch("auth/logout");
+    // },
   },
   // middleware: "authGuard",
   middleware({ store, redirect }) {

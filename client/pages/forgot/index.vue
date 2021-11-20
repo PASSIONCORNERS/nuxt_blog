@@ -8,11 +8,12 @@
         @submit.prevent="formSubmit"
       >
         <input
-          v-model="form.email"
+          v-model="email"
           type="text"
           class="border border-indigo-500 rounded shadow-lg py-3 mt-20 pl-4"
           placeholder="Enter your email..."
         />
+        <input type="hidden" v-model="$data._csrf" />
         <button
           class="
             bg-indigo-500
@@ -41,15 +42,14 @@ import { isEmpty, isEmail } from "~/utils/validate";
 export default {
   data() {
     return {
-      form: {
-        email: "",
-      },
+      email: "",
+      _csrf: this.$data._csrf,
     };
   },
   methods: {
     async formSubmit() {
       // check fields
-      if (!isEmpty(this.form.email))
+      if (!isEmpty(this.email))
         return this.$toast.error("Please fill in all fields", {
           position: "top-center",
           duration: 8000,
@@ -61,7 +61,7 @@ export default {
           },
         });
       // check email
-      if (!isEmail(this.form.email))
+      if (!isEmail(this.email))
         return this.$toast.error("Please enter a valid email address", {
           position: "top-center",
           duration: 8000,
@@ -73,11 +73,15 @@ export default {
           },
         });
       // call to api
+      const data = {
+        email: this.email,
+        _csrf: this.$csrfToken(),
+      };
       await this.$axios
-        .$post("http://localhost:8000/api/auth/forgot_pass", this.form)
+        .$post("http://localhost:8000/api/auth/forgot_pass", data)
         .then((res) => {
           // console.log(res.message);
-          this.form.email = "";
+          this.email = "";
           this.$toast.success(res.message, {
             position: "top-center",
             duration: 5000,

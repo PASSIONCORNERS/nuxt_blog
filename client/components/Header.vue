@@ -11,19 +11,20 @@
         <!-- logged out -->
         <form @submit.prevent="logIn" v-if="!this.$store.state.auth.isLoggedIn">
           <input
-            v-model="form.email"
+            v-model="email"
             type="text"
             autocomplete="off"
             placeholder="Email"
             class="py-2 rounded pl-2"
           />
           <input
-            v-model="form.password"
+            v-model="password"
             type="password"
             autocomplete="off"
             placeholder="Password"
             class="py-2 rounded pl-2"
           />
+          <input type="hidden" v-model="$data._csrf" />
           <button
             type="submit"
             class="
@@ -73,16 +74,18 @@ import { isEmpty, isEmail } from "~/utils/validate";
 export default {
   data() {
     return {
-      form: {
-        email: "",
-        password: "",
-      },
+      email: "",
+      password: "",
+      _csrf: this.$csrfToken(),
     };
   },
+  // async fetch() {
+  //   this._csfr = this.$csrfToken();
+  // },
   methods: {
     async logIn() {
       // check fields
-      if (!isEmpty(this.form.username) || !isEmpty(this.form.password))
+      if (!isEmpty(this.email) || !isEmpty(this.password))
         return this.$toast.error("Please fill in all fields", {
           position: "top-center",
           duration: 8000,
@@ -94,7 +97,7 @@ export default {
           },
         });
       // check email
-      if (!isEmail(this.form.email))
+      if (!isEmail(this.email))
         return this.$toast.error("Please enter a valid email address", {
           position: "top-center",
           duration: 8000,
@@ -105,8 +108,15 @@ export default {
             },
           },
         });
+      const data = {
+        email: this.email,
+        password: this.password,
+        _csrf: this.$data._csrf,
+        // _csrf: "fake",
+      };
+
       await this.$axios
-        .$post("http://localhost:8000/api/login", this.form)
+        .$post("http://localhost:8000/api/login", data)
         .then((res) => {
           // set cookie
           this.$cookies.set("app.vnblog.tk", res, {
@@ -116,12 +126,16 @@ export default {
           // set state
           this.$store.dispatch("auth/login");
           // clear form
-          this.form.email = "";
-          this.form.password = "";
+          this.email = "";
+          this.password = "";
           this.$router.push("/dashboard");
         })
         .catch((error) => {
           this.$router.push("/");
+          // console.log("For Dev >>>", error.response.data.message);
+          // clear form
+          this.email = "";
+          this.password = "";
           this.$toast.error(error.response.data.message, {
             position: "top-center",
             duration: 5000,
@@ -134,6 +148,7 @@ export default {
           });
         });
     },
+    // don't need csrf because no form is submitted to server
     async logOut() {
       await this.$store.dispatch("auth/logout");
       this.$cookies.remove("app.vnblog.tk");

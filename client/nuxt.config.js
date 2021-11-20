@@ -23,7 +23,8 @@ export default {
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
     // "~/plugins/forwardCookie"
-    "~/plugins/persistedState.client.js",
+    "~/plugins/persistedState.client",
+    "~/plugins/axios",
   ],
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
@@ -35,7 +36,12 @@ export default {
   ],
   css: ["~/assets/sass/main.scss"],
   // Modules: https://go.nuxtjs.dev/config-modules
-  modules: ["@nuxtjs/axios", "@nuxtjs/toast", "cookie-universal-nuxt"],
+  modules: [
+    "@nuxtjs/axios",
+    "@nuxtjs/toast",
+    "cookie-universal-nuxt",
+    "@privyid/nuxt-csrf",
+  ],
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {},
   loading: {

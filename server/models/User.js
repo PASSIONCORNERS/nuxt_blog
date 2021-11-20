@@ -217,16 +217,17 @@ class User {
       }
     });
   }
-  login() {
+  login(data) {
     return new Promise((resolve, reject) => {
+      let { email, password } = data;
       try {
-        this.cleanUp();
+        // this.cleanUp();
         // find user
         usersCollection
-          .findOne({ email: this.data.email })
+          .findOne({ email: email })
           .then((user) => {
             // check user & password
-            if (user && bcrypt.compareSync(this.data.password, user.password)) {
+            if (user && bcrypt.compareSync(password, user.password)) {
               // create token
               const access_token = jwt.sign(
                 { user: user._id.toJSON() },
@@ -240,9 +241,11 @@ class User {
             }
           })
           .catch((error) => {
+            console.log("Model >>>", error);
             reject(error.message);
           });
       } catch (error) {
+        console.log("Model >>>", error.message);
         reject(error.message);
       }
     });
