@@ -16,7 +16,7 @@ Client side is built with Nuxtjs
 
    Logout
 
-   Password reset (via email) (in progress...)
+   Password reset (via email)
 
 ## Build Setup
 
