@@ -34,6 +34,10 @@ $ npm run dev
 - client: localhost:3000
 - server: lcoalhost:8000
 
+# rename .evn.example to .env
+- Do this in client and server
+- Input the correct keys
+
 # build for production and launch server client side
 $ cd client
 $ npm run build
@@ -42,11 +46,6 @@ $ npm run start
 # generate static project
 $ cd client
 $ npm run generate
-
-# rename .evn.example to .env
-- Do this in client and server
-- Input the correct keys
-
 ```
 
 For detailed explanation on how Nuxtjs work, check out the [documentation](https://nuxtjs.org).
