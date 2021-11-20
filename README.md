@@ -6,6 +6,14 @@ Server side is built with Nodejs with the API approach, database is MongoDB
 
 Client side is built with Nuxtjs
 
+## Features
+
+1. Authentication
+   Register (with email validatation)
+   Login
+   Logout
+   Password reset (via email)
+
 ## Build Setup
 
 ```bash
