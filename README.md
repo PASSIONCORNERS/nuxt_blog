@@ -11,10 +11,10 @@ $ cd client
 $ npm install
 
 # serve both client and server with hot reload
-- client: localhost:3000
-- server: lcoalhost:8000
 $ cd server
 $ npm run dev
+- client: localhost:3000
+- server: lcoalhost:8000
 
 # build for production and launch server client side
 $ cd client
