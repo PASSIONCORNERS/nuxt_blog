@@ -28,15 +28,15 @@ $ npm install
 $ cd client
 $ npm install
 
+# rename .evn.example to .env
+- Do this in client and server
+- Input the correct keys
+
 # serve both client and server with hot reload
 $ cd server
 $ npm run dev
 - client: localhost:3000
 - server: lcoalhost:8000
-
-# rename .evn.example to .env
-- Do this in client and server
-- Input the correct keys
 
 # build for production and launch server client side
 $ cd client
