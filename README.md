@@ -20,7 +20,7 @@ Client side is built with Nuxtjs
 
 2. Securities
 
-   CSRF protection (in progress...)
+   CSRF protection
 
 ## Build Setup
 
