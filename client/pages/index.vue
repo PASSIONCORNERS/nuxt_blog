@@ -14,15 +14,17 @@
       >
         <!-- heading -->
         <div class="w-full md:w-5/12">
-          <h1 class="text-5xl">Lorem ipsum dolor sit amet.</h1>
-          <p class="mt-5 leading-relaxed fw-thin">
+          <h1 class="text-center md:text-left text-5xl">
+            Lorem ipsum dolor sit amet.
+          </h1>
+          <p class="text-center md:text-left mt-5 leading-relaxed fw-thin">
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Itaque modi
             unde laborum facilis incidunt dolores ad labore illum doloremque
             aspernatur.
           </p>
         </div>
         <!-- signup -->
-        <div class="w-full md:w-5/12">
+        <div class="w-full md:w-5/12 mt-10 pb-8 md:pb-0 md:mt-0">
           <h2 class="text-center text-3xl mb-4">Sign Up Here</h2>
           <form class="flex flex-col" @submit.prevent="formSubmit">
             <input
