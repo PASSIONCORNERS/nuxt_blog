@@ -66,8 +66,8 @@ const userController = {
   forgot: async (req, res) => {
     try {
       // console.log("Body >>>", req.body);
-      new User(req.body)
-        .forgot()
+      new User()
+        .forgot(req.body)
         .then((success) => {
           res.status(200).json({ message: success });
         })

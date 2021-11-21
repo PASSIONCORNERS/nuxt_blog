@@ -43,7 +43,7 @@ export default {
   data() {
     return {
       email: "",
-      _csrf: this.$data._csrf,
+      _csrf: this.$csrfToken(),
     };
   },
   methods: {

@@ -7,7 +7,7 @@
         @submit.prevent="formSubmit"
       >
         <input
-          v-model="form.password"
+          v-model="password"
           type="password"
           autocomplete="off"
           class="border border-indigo-500 rounded shadow-lg py-3 mt-20 pl-4"
@@ -20,6 +20,7 @@
           class="border border-indigo-500 rounded shadow-lg py-3 mt-4 pl-4"
           placeholder="Confirm new password"
         />
+        <input type="hidden" v-model="$data._csrf" />
         <button
           type="submit"
           class="
@@ -46,10 +47,9 @@ import { isEmpty, isLength, isMatch } from "~/utils/validate";
 export default {
   data() {
     return {
-      form: {
-        password: "",
-      },
+      password: "",
       cf_password: "",
+      _csrf: this.$csrfToken(),
     };
   },
   methods: {
@@ -59,7 +59,7 @@ export default {
       // console.log("Token >>>", token);
 
       // check fields
-      if (!isEmpty(this.form.password))
+      if (!isEmpty(this.password))
         return this.$toast.error("Please fill in all fields", {
           position: "top-center",
           duration: 8000,
@@ -71,7 +71,7 @@ export default {
           },
         });
       // check password
-      if (!isLength(this.form.password))
+      if (!isLength(this.password))
         return this.$toast.error("Password must be at least 6 characters", {
           position: "top-center",
           duration: 8000,
@@ -83,7 +83,7 @@ export default {
           },
         });
       // check match
-      if (!isMatch(this.form.password, this.cf_password))
+      if (!isMatch(this.password, this.cf_password))
         return this.$toast.error("Password did not match", {
           position: "top-center",
           duration: 8000,
@@ -96,14 +96,15 @@ export default {
         });
       // log
       let data = {
-        password: this.form.password,
+        password: this.password,
         token: token,
+        _csrf: this.$csrfToken(),
       };
       await this.$axios
         .$post("http://localhost:8000/api/auth/reset_pass", data)
         .then((res) => {
           console.log(res.message);
-          this.form.password = "";
+          this.password = "";
           this.cf_password = "";
           this.$toast.success(res.message, {
             position: "top-center",

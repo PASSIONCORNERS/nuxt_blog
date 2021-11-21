@@ -278,10 +278,10 @@ class User {
       }
     });
   }
-  forgot() {
+  forgot(data) {
     return new Promise((resolve, reject) => {
+      let { email } = data;
       try {
-        const email = this.data.email;
         //check email
         usersCollection
           .findOne({ email: email })
