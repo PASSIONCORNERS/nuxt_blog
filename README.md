@@ -22,6 +22,12 @@ Client side is built with Nuxtjs
 
    CSRF protection
 
+3. User roles (in progress...)
+
+   Admin
+
+   Member
+
 ## Build Setup
 
 ```bash
