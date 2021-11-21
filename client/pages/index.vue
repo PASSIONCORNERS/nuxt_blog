@@ -2,9 +2,18 @@
   <div>
     <div class="container mx-auto px-4 mt-44">
       <!-- <p class="text-center">{{ this.$store.state.jwt.isLoggedIn }}</p> -->
-      <div class="flex px-20 items-center justify-between">
+      <div
+        class="
+          flex flex-col
+          md:flex-row
+          px-4
+          md:px-20
+          items-center
+          justify-between
+        "
+      >
         <!-- heading -->
-        <div class="w-5/12">
+        <div class="w-full md:w-5/12">
           <h1 class="text-5xl">Lorem ipsum dolor sit amet.</h1>
           <p class="mt-5 leading-relaxed fw-thin">
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Itaque modi
@@ -13,7 +22,7 @@
           </p>
         </div>
         <!-- signup -->
-        <div class="w-5/12">
+        <div class="w-full md:w-5/12">
           <h2 class="text-center text-3xl mb-4">Sign Up Here</h2>
           <form class="flex flex-col" @submit.prevent="formSubmit">
             <input

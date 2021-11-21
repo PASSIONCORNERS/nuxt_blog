@@ -1,7 +1,7 @@
 <template>
   <div class="bg-black">
     <div class="container mx-auto px-4">
-      <div class="flex justify-between items-center py-4">
+      <div class="flex flex-col md:flex-row justify-between items-center py-4">
         <!-- logo -->
         <div>
           <nuxt-link to="/">
@@ -9,20 +9,24 @@
           </nuxt-link>
         </div>
         <!-- logged out -->
-        <form @submit.prevent="logIn" v-if="!this.$store.state.auth.isLoggedIn">
+        <form
+          @submit.prevent="logIn"
+          v-if="!this.$store.state.auth.isLoggedIn"
+          class="flex flex-col md:flex-row"
+        >
           <input
             v-model="email"
             type="text"
             autocomplete="off"
             placeholder="Email"
-            class="py-2 rounded pl-2"
+            class="py-2 rounded pl-2 mr-0 mt-4 md:mt-0 md:mr-4"
           />
           <input
             v-model="password"
             type="password"
             autocomplete="off"
             placeholder="Password"
-            class="py-2 rounded pl-2"
+            class="py-2 rounded pl-2 mr-0 mt-4 md:mt-0 md:mr-4"
           />
           <input type="hidden" v-model="$data._csrf" />
           <button
@@ -30,6 +34,8 @@
             class="
               py-2
               px-6
+              mt-4
+              md:mt-0
               bg-indigo-500
               rounded
               uppercase
