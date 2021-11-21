@@ -102,6 +102,8 @@ export default {
       email: "",
       password: "",
       cf_password: "",
+      role: "member",
+      createdDate: new Date(),
       _csrf: this.$csrfToken(),
     };
   },
@@ -160,6 +162,8 @@ export default {
         username: this.username,
         email: this.email,
         password: this.password,
+        role: this.role,
+        createdDate: this.createdDate,
         _csrf: this.$csrfToken(),
       };
       await this.$axios

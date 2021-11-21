@@ -28,6 +28,8 @@ Client side is built with Nuxtjs
 
    Member
 
+4. Skeleton Load (in progress...)
+
 ## Build Setup
 
 ```bash

@@ -29,6 +29,8 @@ class User {
       username: this.data.username,
       email: this.data.email.trim().toLowerCase(),
       password: this.data.password,
+      role: this.data.role,
+      createdDate: this.data.createdDate,
     };
   }
   validate() {
@@ -91,7 +93,10 @@ class User {
             username: this.data.username,
             email: this.data.email,
             password: this.data.password,
+            role: this.data.role,
+            createdDate: this.data.createdDate,
           };
+          console.log("regUser1", this.data);
           const activation_token = jwt.sign(
             regUser,
             process.env.ACTIVATIONTOKEN,
@@ -200,14 +205,16 @@ class User {
         // verify token
         let regUser = jwt.verify(this.data.token, process.env.ACTIVATIONTOKEN);
         // check user again
-        const { username, email, password } = regUser;
+        console.log("regUser2", regUser);
+        const { username, email, password, role, createdDate } = regUser;
         const check = await usersCollection.findOne({ email });
         if (check) {
           this.errors.push("This email is already registered 😕");
           reject(this.errors);
         } else {
           // add user to db
-          const newUser = { username, email, password };
+          const newUser = { username, email, password, role, createdDate };
+          console.log("newUser", newUser);
           await usersCollection.insertOne(newUser);
           // success
           resolve();

@@ -3,6 +3,7 @@ const User = require("../models/User");
 
 const userController = {
   register: async (req, res) => {
+    console.log("req.body", req.body);
     try {
       new User(req.body)
         .register()

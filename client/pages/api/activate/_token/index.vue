@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>Activate Your Account</h1>
+    <!-- <h1>Activate Your Account</h1> -->
   </div>
 </template>
 
@@ -16,7 +16,6 @@ export default {
         await this.$axios
           .$post("http://localhost:8000/api/activate", { token })
           .then((res) => {
-            this.$router.push("/");
             this.$toast.success(res.message, {
               position: "top-center",
               duration: 5000,
@@ -27,6 +26,7 @@ export default {
                 },
               },
             });
+            this.$router.push("/");
           })
           .catch((error) => {
             this.$router.push("/");
