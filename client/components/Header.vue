@@ -1,6 +1,6 @@
 <template>
   <div class="bg-black">
-    <div class="container mx-auto px-4">
+    <div class="mx-auto px-4" :class="getClass()">
       <div class="flex flex-col md:flex-row justify-between items-center py-4">
         <!-- logo -->
         <div>
@@ -78,6 +78,12 @@
 <script>
 import { isEmpty, isEmail } from "~/utils/validate";
 export default {
+  // props: {
+  //   content: {
+  //     type: String,
+  //   },
+  // },
+  props: ["content"],
   data() {
     return {
       email: "",
@@ -85,9 +91,9 @@ export default {
       _csrf: this.$csrfToken(),
     };
   },
-  // async fetch() {
-  //   this._csfr = this.$csrfToken();
-  // },
+  fetch() {
+    console.log("TESTING >>>", this.content);
+  },
   methods: {
     async logIn() {
       // check fields
@@ -159,6 +165,14 @@ export default {
       await this.$store.dispatch("auth/logout");
       this.$cookies.remove("app.vnblog.tk");
       this.$router.push("/");
+    },
+    getClass() {
+      if (this.content == "cravings") return "bg-gray-400";
+      return "container";
+      // return {
+      //   "bg-green-500": this.content == "cravings",
+      //   "bg-indigo-500": !this.content["cravings"],
+      // };
     },
   },
 };

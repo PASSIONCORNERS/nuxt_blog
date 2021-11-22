@@ -96,7 +96,7 @@ class User {
             role: this.data.role,
             createdDate: this.data.createdDate,
           };
-          console.log("regUser1", this.data);
+          // console.log("regUser1", this.data);
           const activation_token = jwt.sign(
             regUser,
             process.env.ACTIVATIONTOKEN,
@@ -205,7 +205,7 @@ class User {
         // verify token
         let regUser = jwt.verify(this.data.token, process.env.ACTIVATIONTOKEN);
         // check user again
-        console.log("regUser2", regUser);
+        // console.log("regUser2", regUser);
         const { username, email, password, role, createdDate } = regUser;
         const check = await usersCollection.findOne({ email });
         if (check) {
@@ -214,7 +214,7 @@ class User {
         } else {
           // add user to db
           const newUser = { username, email, password, role, createdDate };
-          console.log("newUser", newUser);
+          // console.log("newUser", newUser);
           await usersCollection.insertOne(newUser);
           // success
           resolve();

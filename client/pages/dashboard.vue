@@ -51,6 +51,7 @@ export default {
       return redirect("/");
     }
   },
+  layout: "admin-dashboard",
 };
 </script>
 
